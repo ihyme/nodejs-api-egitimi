@@ -1,0 +1,4 @@
+"helper/db copy.js" to "helper/db.js" and correct connection string.
+
+and run
+npm start
