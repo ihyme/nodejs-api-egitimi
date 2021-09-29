@@ -4,9 +4,29 @@ import Movie from '../models/Movie.js';
 
 /* GET users listing. */
 router.get('/', (req, res, next) => {
-    Movie.find({},(err,data)=>{
-      res.json(data);
-    });
+    Movie.aggregate([
+      {
+        $lookup : {
+          from : "directors",
+          localField:"director_id",
+          foreignField:"_id",
+          as : "director"  //unwind i bununla yapıyorsun.
+        }
+      },
+      {      
+        $unwind : {
+          path:"$director",
+          preserveNullAndEmptyArrays : true
+        }
+      }
+    ],(err,data)=>{
+      if(err){
+        res.json(err)
+      } else {
+        res.json(data)
+      }
+      
+    })
 });
 /* Save new Movie */
 router.post('/',(req,res)=>{
@@ -38,7 +58,7 @@ router.get('/between/:start_year/:end_year',(req,res)=>{
     "$gte":parseInt(start_year), "$lte":parseInt(end_year)
     }
   },(err,data)=>{
-    res.json(data)
+    res.json(data) 
   })
 })
 

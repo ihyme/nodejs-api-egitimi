@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 const MovieSchema = new Schema({
     title:{
         type:String,
-        required:true,
+        required:[true,"Film başlığını girmek zorundasınız."],
     },
     category:String,
     country:String,
@@ -16,4 +16,4 @@ const MovieSchema = new Schema({
     }
 });
 
-export default mongoose.model('movie',MovieSchema);
+export default mongoose.model('movies',MovieSchema);
